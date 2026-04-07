@@ -1,5 +1,7 @@
 ## Environment Setup
+
 step 1. Install environment for pytorch training
+
 ```
 conda create --name FlashOcc python=3.8.5
 conda activate FlashOcc
@@ -43,11 +45,14 @@ pip install -v -e .
 ```
 
 step 3. Prepare nuScenes dataset as introduced in [nuscenes_det.md](nuscenes_det.md) and create the pkl for FlashOCC by running:
+
 ```shell
 python tools/create_data_bevdet.py
 ```
+
 thus, the folder will be ranged as following:
-```shell script
+
+```shell
 └── Path_to_FlashOcc/
     └── data
         └── nuscenes
@@ -59,7 +64,8 @@ thus, the folder will be ranged as following:
 ```
 
 step 4. For Occupancy Prediction task, download (only) the 'gts' from [CVPR2023-3D-Occupancy-Prediction](https://github.com/CVPR2023-3D-Occupancy-Prediction/CVPR2023-3D-Occupancy-Prediction) and arrange the folder as:
-```shell script
+
+```shell
 └── Path_to_FlashOcc/
     └── data
         └── nuscenes
@@ -70,21 +76,23 @@ step 4. For Occupancy Prediction task, download (only) the 'gts' from [CVPR2023-
             ├── bevdetv2-nuscenes_infos_train.pkl (new)
             └── bevdetv2-nuscenes_infos_val.pkl (new)
 ```
+
 (for panoptic occupancy), we follow the data setting in SparseOcc:
 
 (1) Download Occ3D-nuScenes occupancy GT from [gdrive](https://drive.google.com/file/d/1kiXVNSEi3UrNERPMz_CfiJXKkgts_5dY/view?usp=drive_link), unzip it, and save it to `data/nuscenes/occ3d`.
 
 (2) Generate the panoptic occupancy ground truth with `gen_instance_info.py`. The panoptic version of Occ3D will be saved to `data/nuscenes/occ3d_panoptic`.
 
-
 step 5. CKPTS Preparation
 (1) Download flashocc-r50-256x704.pth[https://drive.google.com/file/d/1k9BzXB2nRyvXhqf7GQx3XNSej6Oq6I-B/view] to Path_to_FlashOcc/FlashOcc/ckpts/, then run:
-```shell script
+
+```shell
 bash tools/dist_test.sh projects/configs/flashocc/flashocc-r50.py  ckpts/flashocc-r50-256x704.pth 4 --eval map
 ```
 
 step 6. (Optional) Install mmdeploy for tensorrt testing
-```shell script
+
+```shell
 conda activate FlashOcc
 pip install Cython==0.29.24
 
@@ -131,13 +139,17 @@ export LIBRARY_PATH=Path_to_TensorRT-8.4.0.6/lib:$LIBRARY_PATH
 ```
 
 ## The finally overall rangement
+
 1. Tensort
-```shell script
+
+```shell
 └── Path_to_TensorRT-8.4.0.6
     └── TensorRT-8.4.0.6
 ```
+
 2. FlashOcc
-```shell script
+
+```shell
 └── Path_to_FlashOcc/
     └── data
         └── nuscenes
@@ -158,8 +170,10 @@ export LIBRARY_PATH=Path_to_TensorRT-8.4.0.6/lib:$LIBRARY_PATH
     ├── tools
     └── README.md
 ```
+
 3. ppl.cv
-```shell script
+
+```shell
 └── Path_to_pplcv
     └── ppl.cv
 ```

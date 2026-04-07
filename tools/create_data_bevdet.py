@@ -100,8 +100,8 @@ def nuscenes_data_prep(root_path, info_prefix, version, max_sweeps=10):
 
 
 def add_ann_adj_info(extra_tag):
-    nuscenes_version = 'v1.0-trainval'
-    dataroot = './data/nuscenes/'
+    nuscenes_version = 'v1.0-mini'
+    dataroot = '/media/gky/Elements/data_all/FlashOcc/data/nuscenes/' 
     nuscenes = NuScenes(nuscenes_version, dataroot)
     for set in ['train', 'val']:
         dataset = pickle.load(
@@ -127,17 +127,16 @@ def add_ann_adj_info(extra_tag):
             scene = nuscenes.get('scene', sample['scene_token'])
             dataset['infos'][id]['scene_name'] = scene['name']
             dataset['infos'][id]['occ_path'] = \
-                './data/nuscenes/gts/%s/%s'%(scene['name'], info['token'])
+                '/media/gky/Elements/data_all/FlashOcc/data/nuscenes/gts/%s/%s'%(scene['name'], info['token'])
         with open('%s/%s_infos_%s.pkl' % (dataroot, extra_tag, set),
                   'wb') as fid:
             pickle.dump(dataset, fid)
 
-
 if __name__ == '__main__':
     dataset = 'nuscenes'
     version = 'v1.0'
-    train_version = f'{version}-trainval'
-    root_path = 'data/nuscenes'
+    train_version = f'{version}-mini'
+    root_path = '/media/gky/Elements/data_all/FlashOcc/data/nuscenes'
     extra_tag = 'bevdetv2-nuscenes'
     nuscenes_data_prep(
         root_path=root_path,

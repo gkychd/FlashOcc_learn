@@ -97,7 +97,7 @@ model = dict(
 
 # Data
 dataset_type = 'NuScenesDatasetOccpancy'
-data_root = 'data/nuscenes/'
+data_root = '/media/gky/Elements/data_all/FlashOcc/data/nuscenes/'
 file_client_args = dict(backend='disk')
 
 bda_aug_conf = dict(
@@ -182,7 +182,7 @@ test_data_config = dict(
     ann_file=data_root + 'bevdetv2-nuscenes_infos_val.pkl')
 
 data = dict(
-    samples_per_gpu=4,
+    samples_per_gpu=1, #batch size 一次训练的图片为4组 默认是4
     workers_per_gpu=4,
     train=dict(
         data_root=data_root,
@@ -201,7 +201,7 @@ for key in ['val', 'train', 'test']:
     data[key].update(share_data_config)
 
 # Optimizer
-optimizer = dict(type='AdamW', lr=1e-4, weight_decay=1e-2)
+optimizer = dict(type='AdamW', lr=1e-4, weight_decay=1e-2) #学习率 lr 权重衰减 weight_decay
 optimizer_config = dict(grad_clip=dict(max_norm=5, norm_type=2))
 lr_config = dict(
     policy='step',
@@ -209,7 +209,7 @@ lr_config = dict(
     warmup_iters=200,
     warmup_ratio=0.001,
     step=[24, ])
-runner = dict(type='EpochBasedRunner', max_epochs=24)
+runner = dict(type='EpochBasedRunner', max_epochs=24) # 训练批次 24
 
 custom_hooks = [
     dict(
