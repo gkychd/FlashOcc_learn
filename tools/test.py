@@ -77,7 +77,7 @@ def parse_args():
         help='whether to use gpu to collect results.')
     parser.add_argument(
         '--no-aavt',
-        action='store_true',
+        action='store_true',metavar
         help='Do not align after view transformer.')
     parser.add_argument(
         '--tmpdir',

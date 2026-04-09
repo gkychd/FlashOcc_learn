@@ -11,7 +11,7 @@ from mmdet3d.core import bbox3d2result
 import numpy as np
 from multiprocessing.dummy import Pool as ThreadPool
 from ...ops import nearest_assign
-# pool = ThreadPool(processes=4)  # ´´½¨Ïß³Ì³Ø
+# pool = ThreadPool(processes=4)  # ï¿½ï¿½ï¿½ï¿½ï¿½ß³Ì³ï¿½
 
 # for pano
 grid_config_occ = {
@@ -1076,7 +1076,7 @@ class BEVDetOCCTRT(BEVDetOCC):
         interval_lengths,
     ):
         tran_feat = tran_feat.reshape(6, 16, 44, 64)
-        depth = depth.reshape(6, 16, 44, 44)
+        depth = depth.reshape(6, 16, 44, 88)
         x = TRTBEVPoolv2.apply(depth.contiguous(), tran_feat.contiguous(),
                                ranks_depth, ranks_feat, ranks_bev,
                                interval_starts, interval_lengths,
@@ -1084,7 +1084,8 @@ class BEVDetOCCTRT(BEVDetOCC):
                                int(self.img_view_transformer.grid_size[1].item()),
                                int(self.img_view_transformer.grid_size[2].item())
                                ) # -> [1, 64, 200, 200]
-        return x.reshape(-1)
+        # reshape(-1) æ˜¯ä¸ºäº†æ¨¡å—åŒ–è§£è€¦
+        return x.reshape(-1) #[40000]
 
     def forward_part3(
         self,
@@ -1387,7 +1388,7 @@ class BEVDepthPanoTRT(BEVDepthPano):
         
         # outs_inst_center = self.aux_centerness_head([occ_bev_feature])
         x = self.aux_centerness_head.shared_conv(occ_bev_feature)     # (B, C'=share_conv_channel, H, W)
-        # ÔËĞĞ²»Í¬task_head,
+        # ï¿½ï¿½ï¿½Ğ²ï¿½Í¬task_head,
         outs_inst_center_reg = self.aux_centerness_head.task_heads[0].reg(x)
         outs.append(outs_inst_center_reg)
         outs_inst_center_height = self.aux_centerness_head.task_heads[0].height(x)
@@ -1440,7 +1441,7 @@ class BEVDepthPanoTRT(BEVDepthPano):
 
         # outs_inst_center = self.aux_centerness_head([occ_bev_feature])
         x = self.aux_centerness_head.shared_conv(occ_bev_feature)     # (B, C'=share_conv_channel, H, W)
-        # ÔËĞĞ²»Í¬task_head,
+        # ï¿½ï¿½ï¿½Ğ²ï¿½Í¬task_head,
         outs_inst_center_reg = self.aux_centerness_head.task_heads[0].reg(x)
         outs.append(outs_inst_center_reg)
         outs_inst_center_height = self.aux_centerness_head.task_heads[0].height(x)
